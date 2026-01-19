@@ -1,4 +1,4 @@
-import Favorites from "./ui/favorites";
+import Favorites from "../../widgets/favorites/ui";
 import Header from "./ui/header";
 import WeatherInfo from "./ui/weather-info";
 
