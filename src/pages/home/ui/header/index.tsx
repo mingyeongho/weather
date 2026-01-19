@@ -1,4 +1,5 @@
 import { Locate, Search, Star } from "lucide-react";
+import { Blind } from "../../../../shared/ui/blind";
 
 const Header = () => {
   return (
@@ -13,16 +14,19 @@ const Header = () => {
                 fill="#D0D1D3"
                 className="size-5.5"
               />
+              <Blind>관심지역 설정</Blind>
             </button>
             <strong className="text-2xl">일산동구 장항동</strong>
           </div>
           <button aria-label="현재 위치로 설정">
             <Locate strokeWidth={1} />
+            <Blind>현재 위치로 설정</Blind>
           </button>
         </div>
         <div id="right">
           <button aria-label="지역 검색">
             <Search strokeWidth={1} />
+            <Blind>지역 검색</Blind>
           </button>
         </div>
       </div>

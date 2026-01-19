@@ -1,3 +1,4 @@
+import { Blind } from "../../../../shared/ui/blind";
 import HourCard from "./hour-card";
 import Stat from "./stat";
 
@@ -6,6 +7,7 @@ const WeatherInfo = () => {
     <div className="flex flex-col items-center gap-10">
       <section aria-label="현재 날씨 정보">
         <div className="flex items-center">
+          <Blind>현재 기온</Blind>
           <img src="/01d.svg" alt="맑음" className="size-50 -mr-20" />
           <strong aria-label="현재 기온" className="text-8xl">
             -10°
@@ -30,6 +32,7 @@ const WeatherInfo = () => {
         </div>
       </section>
       <section aria-label="시간대 별 날씨 정보" className="max-w-full">
+        <Blind>시간대 별 날씨 정보</Blind>
         <ul className="flex gap-2 overflow-x-scroll border border-black/20 rounded-lg p-4">
           {new Array(36).fill(0).map((_, idx) => (
             <li key={idx} className="shrink-0">
