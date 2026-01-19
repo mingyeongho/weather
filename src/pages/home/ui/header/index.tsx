@@ -10,7 +10,7 @@ const Header = () => {
     <header className="border-b border-black/20 fixed top-0 left-0 right-0 bg-white">
       <div className="max-w-5xl mx-auto flex justify-between items-center h-12.5 px-4 lg:px-0">
         <div id="left" className="flex items-center gap-2">
-          {coord ? <RegionLabel {...coord} /> : <div>Loading...</div>}
+          <RegionLabel {...coord} />
           <button aria-label="현재 위치로 설정">
             <Locate strokeWidth={1} />
             <Blind>현재 위치로 설정</Blind>

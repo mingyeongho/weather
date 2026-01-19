@@ -6,25 +6,19 @@ import {
   type PropsWithChildren,
 } from "react";
 import type { Coord } from "../../shared/types/region";
+import NotFound from "../../pages/not-found/ui";
+import Loading from "../../pages/loading/ui";
 
-type Status = "success" | "loading" | "error";
-
-const CoordContext = createContext<{
-  coord: Coord | null;
-  status: Status;
-}>({
-  coord: null,
-  status: "loading",
-});
+const CoordContext = createContext<Coord | null>(null);
 
 export const useCoord = () => {
   const values = useContext(CoordContext);
 
-  if (values.status === "error") {
-    throw new Error("좌표가 없습니다.");
+  if (!values) {
+    throw new Error("좌표값이 없습니다.");
   }
 
-  return values.coord;
+  return values;
 };
 
 /**
@@ -33,7 +27,7 @@ export const useCoord = () => {
  */
 const CoordProvider = ({ children }: PropsWithChildren) => {
   const [coord, setCoord] = useState<Coord | null>(null);
-  const [status, setStatus] = useState<Status>("loading");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const pathname = window.location.pathname.split("/")[1];
@@ -42,32 +36,39 @@ const CoordProvider = ({ children }: PropsWithChildren) => {
       // pathname을 통해 code의 lat, lng를 구하는 로직
       if (pathname) {
         console.log(pathname);
-        setStatus("error");
+        setIsLoading(false);
       } else {
         if (typeof navigator === "undefined" || !navigator.geolocation) {
+          setIsLoading(false);
           throw new Error("위치 정보를 가져올 수 없습니다.");
         }
 
         navigator.geolocation.getCurrentPosition(
           ({ coords: { latitude, longitude } }) => {
-            setStatus("success");
             setCoord({ lat: latitude, lng: longitude });
+            setIsLoading(false);
           },
           () => {
-            setStatus("error");
+            setIsLoading(false);
           },
         );
       }
     } catch (e) {
-      setStatus("error");
+      setIsLoading(false);
       console.error(e);
     }
   }, []);
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!coord) {
+    return <NotFound />;
+  }
+
   return (
-    <CoordContext.Provider value={{ coord, status }}>
-      {children}
-    </CoordContext.Provider>
+    <CoordContext.Provider value={coord}>{children}</CoordContext.Provider>
   );
 };
 
