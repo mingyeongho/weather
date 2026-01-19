@@ -2,9 +2,21 @@ import { Star } from "lucide-react";
 import { Blind } from "../../../../shared/ui/blind";
 import type { Coord } from "../../../../shared/types/region";
 import useCoordToRegion from "../../api/use-coord-to-region";
+import { useFavorites } from "../../../../shared/store/favorites";
 
 const RegionLabel = ({ lat, lng }: Coord) => {
   const { code, addressName } = useCoordToRegion({ lat, lng });
+  const { isFavorite, add, remove } = useFavorites();
+
+  const favoriteColor = isFavorite(code) ? "#2E7BF1" : "#D0D1D3";
+
+  const onClickFavorite = () => {
+    if (isFavorite(code)) {
+      remove(code);
+    } else {
+      add({ lat, lng, code, addressName });
+    }
+  };
 
   return (
     <div
@@ -12,11 +24,11 @@ const RegionLabel = ({ lat, lng }: Coord) => {
       data-region-code={code}
       data-region-name={addressName}
     >
-      <button aria-label="관심지역 설정">
+      <button aria-label="관심지역 설정" onClick={onClickFavorite}>
         <Star
           strokeWidth={1}
-          color="#D0D1D3"
-          fill="#D0D1D3"
+          color={favoriteColor}
+          fill={favoriteColor}
           className="size-5.5"
         />
         <Blind>관심지역 설정</Blind>

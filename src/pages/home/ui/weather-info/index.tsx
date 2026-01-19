@@ -1,9 +1,9 @@
 import { useCoord } from "../../../../app/providers/coord-provider";
+import Stat from "../../../../entities/weather/ui/stat";
 import { localeDayjs } from "../../../../shared/config/locale-dayjs";
 import { Blind } from "../../../../shared/ui/blind";
 import useOnecall from "../../api/use-onecall";
 import HourCard from "./hour-card";
-import Stat from "./stat";
 
 const WeatherInfo = () => {
   const coord = useCoord();
