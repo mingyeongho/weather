@@ -48,6 +48,35 @@ lat, lng를 기준으로 날씨를 조회합니다.
 
 - 별칭을 설정하여 관심지역 목록에서 별칭이 노출되도록 합니다.
 
+## 기술적 의사결정
+
+### 위치 정보 관리 방식
+
+**Context API + pathname 기반 라우팅**을 선택했습니다.
+
+- **pathname 기반 상태 관리**: URL에 법정동 코드를 포함시켜(`/{법정동코드}`) 현재 위치 상태를 URL이 반영하도록 했습니다.
+  - URL 공유 및 북마크 가능
+  - 새로고침해도 같은 위치 유지
+
+- **두 가지 위치 획득 방식**:
+  1. 현재 위치: Geolocation API로 좌표 획득
+  2. 지역 검색: 법정동 코드 → Kakao API로 좌표 변환
+
+### 검색 UX
+
+**Spotlight 스타일의 검색 경험**을 구현했습니다.
+
+- macOS: Cmd+K, Windows: Ctrl+K로 즉시 검색 열기
+- 키보드만으로 검색 가능 (위/아래 화살표 + Enter)
+
+### Tanstack-query + Error Boundary
+
+**데이터 페칭과 에러 처리를 UI로부터 분리**하기 위해 사용했습니다.
+
+- `useSuspenseQuery`로 로딩 상태를 Suspense에 위임
+- 에러 발생 시 ErrorBoundary가 폴백 UI 표시
+- 좌표 기반 queryKey로 위치 변경 시 자동 재요청 및 캐싱
+
 ## 프로젝트 실행 방법
 
 ### 실행 전 준비물
