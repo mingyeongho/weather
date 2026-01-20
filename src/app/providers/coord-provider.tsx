@@ -8,6 +8,7 @@ import {
 import type { Coord } from "../../shared/types/region";
 import NotFound from "../../pages/not-found/ui";
 import Loading from "../../pages/loading/ui";
+import getCodeToCoord from "../../entities/region/model/get-code-to-coord";
 
 const CoordContext = createContext<Coord | null>(null);
 
@@ -30,33 +31,39 @@ const CoordProvider = ({ children }: PropsWithChildren) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const pathname = window.location.pathname.split("/")[1];
+    const handleLocationChange = async () => {
+      const regionCode = window.location.pathname.split("/")[1];
+      setIsLoading(true);
 
-    try {
-      // pathname을 통해 code의 lat, lng를 구하는 로직
-      if (pathname) {
-        console.log(pathname);
-        setIsLoading(false);
-      } else {
-        if (typeof navigator === "undefined" || !navigator.geolocation) {
-          setIsLoading(false);
-          throw new Error("위치 정보를 가져올 수 없습니다.");
+      try {
+        if (regionCode) {
+          const newCoord = await getCodeToCoord(regionCode);
+          setCoord(newCoord);
+        } else {
+          if (typeof navigator === "undefined" || !navigator.geolocation) {
+            throw new Error("현재 위치 정보를 불러올 수 없습니다.");
+          }
+
+          navigator.geolocation.getCurrentPosition(
+            ({ coords: { latitude, longitude } }) => {
+              setCoord({ lat: latitude, lng: longitude });
+              setIsLoading(false);
+            },
+            () => setIsLoading(false),
+          );
+          return;
         }
-
-        navigator.geolocation.getCurrentPosition(
-          ({ coords: { latitude, longitude } }) => {
-            setCoord({ lat: latitude, lng: longitude });
-            setIsLoading(false);
-          },
-          () => {
-            setIsLoading(false);
-          },
-        );
+      } catch (e) {
+        console.error(e);
       }
-    } catch (e) {
+
       setIsLoading(false);
-      console.error(e);
-    }
+    };
+
+    handleLocationChange();
+
+    window.addEventListener("popstate", handleLocationChange);
+    return () => window.removeEventListener("popstate", handleLocationChange);
   }, []);
 
   if (isLoading) {

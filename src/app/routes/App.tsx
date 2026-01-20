@@ -4,15 +4,20 @@ import CoordProvider from "../providers/coord-provider";
 import QueryProvider from "../providers/query-provider";
 import "../styles/index.css";
 import NotFound from "../../pages/not-found/ui";
+import { OSProvider } from "../providers/os-provider";
+import SearchDialog from "../../widgets/search-dialog/ui/search-dialog";
 
 const App = () => {
   return (
     <QueryProvider>
-      <ErrorBoundary fallback={<NotFound />}>
-        <CoordProvider>
-          <Home />
-        </CoordProvider>
-      </ErrorBoundary>
+      <OSProvider>
+        <ErrorBoundary fallback={<NotFound />}>
+          <CoordProvider>
+            <Home />
+          </CoordProvider>
+        </ErrorBoundary>
+        <SearchDialog />
+      </OSProvider>
     </QueryProvider>
   );
 };

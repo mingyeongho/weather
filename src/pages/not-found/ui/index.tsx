@@ -1,16 +1,14 @@
-import { Search } from "lucide-react";
-import { Blind } from "../../../shared/ui/blind";
 import Favorites from "../../../widgets/favorites/ui";
+import SearchButton from "../../../entities/search/ui/search-button";
+import NowRegion from "../../../entities/region/ui/now-region";
 
 const NotFound = () => {
   return (
     <>
       <header className="border-b border-black/20 fixed top-0 left-0 right-0 bg-white">
-        <div className="max-w-5xl mx-auto flex justify-end items-center h-12.5 px-4 lg:px-0">
-          <button aria-label="지역 검색">
-            <Search strokeWidth={1} />
-            <Blind>지역 검색</Blind>
-          </button>
+        <div className="max-w-5xl mx-auto flex justify-between items-center h-12.5 px-4 lg:px-0">
+          <NowRegion />
+          <SearchButton />
         </div>
       </header>
       <div className="mt-32.5 max-w-5xl mx-auto px-4 flex flex-col gap-10 lg:px-0 lg:flex-row">

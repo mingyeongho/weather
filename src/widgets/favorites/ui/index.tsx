@@ -1,9 +1,11 @@
 import { Plus } from "lucide-react";
 import { useFavorites } from "../../../shared/store/favorites";
 import FavoriteCard from "./favorite-card";
+import useSearchDialog from "../../../shared/store/search-dialog";
 
 const Favorites = () => {
   const { favorites } = useFavorites();
+  const { open } = useSearchDialog();
 
   return (
     <div className="border border-black/20 rounded-lg">
@@ -21,9 +23,11 @@ const Favorites = () => {
         ) : (
           <>
             <em>관심지역이 없습니다.</em>
+            <em>지역을 검색한 후 추가해주세요.</em>
             <button
               aria-label="관심지역 추가하기"
               className="bg-blue-400 rounded-full p-1"
+              onClick={open}
             >
               <Plus color="#fff" />
             </button>
