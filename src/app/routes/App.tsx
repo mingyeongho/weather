@@ -18,7 +18,7 @@ const App = () => {
           </CoordProvider>
         </ErrorBoundary>
         <SearchDialog />
-        <Toaster />
+        <Toaster position="top-center" />
       </OSProvider>
     </QueryProvider>
   );
