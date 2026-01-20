@@ -4,8 +4,12 @@ import type { Coord } from "../../../../shared/types/region";
 import useCoordToRegion from "../../api/use-coord-to-region";
 import { useFavorites } from "../../../../shared/store/favorites";
 
-const RegionLabel = ({ lat, lng }: Coord) => {
-  const { code, addressName } = useCoordToRegion({ lat, lng });
+type RegionLabelProps = Coord & {
+  addressName?: string;
+};
+
+const RegionLabel = ({ lat, lng, addressName }: RegionLabelProps) => {
+  const { code, addressName: newAddressname } = useCoordToRegion({ lat, lng });
   const { isFavorite, add, remove } = useFavorites();
 
   const favoriteColor = isFavorite(code) ? "#2E7BF1" : "#D0D1D3";
@@ -14,7 +18,7 @@ const RegionLabel = ({ lat, lng }: Coord) => {
     if (isFavorite(code)) {
       remove(code);
     } else {
-      add({ lat, lng, code, addressName });
+      add({ lat, lng, code, addressName: addressName ?? newAddressname });
     }
   };
 
@@ -22,7 +26,7 @@ const RegionLabel = ({ lat, lng }: Coord) => {
     <div
       className="flex gap-1 items-center"
       data-region-code={code}
-      data-region-name={addressName}
+      data-region-name={addressName ?? newAddressname}
     >
       <button aria-label="관심지역 설정" onClick={onClickFavorite}>
         <Star
@@ -33,7 +37,7 @@ const RegionLabel = ({ lat, lng }: Coord) => {
         />
         <Blind>관심지역 설정</Blind>
       </button>
-      <strong className="text-2xl">{addressName}</strong>
+      <strong className="text-2xl">{addressName ?? newAddressname}</strong>
     </div>
   );
 };

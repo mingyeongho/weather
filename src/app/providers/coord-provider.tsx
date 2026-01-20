@@ -27,7 +27,9 @@ export const useCoord = () => {
  * @returns pathname을 통해 lat, lng를 얻는 provider
  */
 const CoordProvider = ({ children }: PropsWithChildren) => {
-  const [coord, setCoord] = useState<Coord | null>(null);
+  const [coord, setCoord] = useState<(Coord & { addressName?: string }) | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

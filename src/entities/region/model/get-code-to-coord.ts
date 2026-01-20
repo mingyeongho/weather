@@ -57,7 +57,7 @@ const getCodeToCoord = async (code: string) => {
 
   if (data.documents.length > 0) {
     const { x, y } = data.documents[0];
-    return { lat: Number(y), lng: Number(x) };
+    return { lat: y, lng: x, addressName };
   }
 
   throw new Error("좌표를 찾을 수 없습니다.");
