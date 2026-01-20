@@ -15,7 +15,7 @@ const Favorites = () => {
       <hr className="border-black/20" />
       <div className="p-4 flex flex-col gap-2 items-center">
         {favorites.length > 0 ? (
-          <ul className="w-full">
+          <ul className="w-full flex flex-col gap-2">
             {favorites.map((favorite) => {
               return <FavoriteCard {...favorite} key={favorite.code} />;
             })}

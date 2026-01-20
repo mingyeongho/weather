@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -25,7 +26,10 @@ export const useFavorites = create<FavoritesStore>()(
       add: (props: Omit<Favorite, "alias">) => {
         const { favorites, isFavorite } = get();
 
-        if (favorites.length > MAX) {
+        if (favorites.length >= MAX) {
+          toast(`관심 목록은 ${MAX}개까지 등록할 수 있습니다.`, {
+            position: "top-center",
+          });
           return false;
         }
 

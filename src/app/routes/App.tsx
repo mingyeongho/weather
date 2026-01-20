@@ -6,6 +6,7 @@ import "../styles/index.css";
 import NotFound from "../../pages/not-found/ui";
 import { OSProvider } from "../providers/os-provider";
 import SearchDialog from "../../widgets/search-dialog/ui/search-dialog";
+import { Toaster } from "sonner";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           </CoordProvider>
         </ErrorBoundary>
         <SearchDialog />
+        <Toaster />
       </OSProvider>
     </QueryProvider>
   );
