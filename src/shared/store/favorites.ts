@@ -17,6 +17,7 @@ type FavoritesStore = {
   add: (props: Omit<Favorite, "alias">) => boolean;
   remove: (code: string) => Favorite[];
   isFavorite: (code: string) => boolean;
+  update: (props: Pick<Favorite, "code" | "alias">) => boolean;
 };
 
 export const useFavorites = create<FavoritesStore>()(
@@ -57,6 +58,14 @@ export const useFavorites = create<FavoritesStore>()(
         const { favorites } = get();
 
         return favorites.some((favorite) => favorite.code === code);
+      },
+      update: ({ code, alias }: Pick<Favorite, "code" | "alias">) => {
+        const { favorites } = get();
+        const newFavorites = favorites.map((favorite) =>
+          favorite.code === code ? { ...favorite, alias } : favorite,
+        );
+        set({ favorites: newFavorites });
+        return true;
       },
     }),
     {
